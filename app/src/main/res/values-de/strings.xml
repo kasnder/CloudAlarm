@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cloud Alarm</string>
+    <string name="headline">Willkommen</string>
+    <string name="btnOpenUrl">Persönlichen Link erstellen</string>
+    <string name="regidUnavailable">Persönliche URL konnte nicht vom Server geladen werden. Erneut versuchen.</string>
+    <string name="default_notification_channel_name">Wecker-Stellen</string>
+    <string name="notificationBody">Klicken für Wecker-Anwendung</string>
+    <string name="notificationTitle">Wecker gestellt!</string>
+    <string name="textExplanation">Diese Anwendung ermöglicht das Stellen eines Weckers über
+        einen Webbrowser.
+        \n\nDafür erstellt diese App einen persönlichen Link, der von einem anderen Gerät,
+        etwa deinem Computer, geöffnet werden kann.
+        \n\nUnten klicken, um zu starten.</string>
+    <string name="shareUrl">Link an deinen Computer schicken</string>
+    <string name="menuContact">Impressum</string>
+    <string name="menuPrivacy">Datenschutzerklärung</string>
+</resources>
