@@ -10,15 +10,17 @@
     <!-- Share link -->
     <string name="btnOpenUrl">Create personal link</string>
     <string name="shareUrl">Transfer link to your computer</string>
-    <string name="regidUnavailable">Your URL could not be fetched from server. Try again.</string>
+    <string name="regidUnavailable">URL could not be fetched. Try again.</string>
 
     <!-- Notification Channel -->
-    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
-    <string name="default_notification_channel_name" translatable="true">Alarm set</string>
+    <string name="channel_id" translatable="false">fcm_default_channel</string>
+    <string name="channel_name" translatable="true">Alarm set</string>
 
     <!-- Further notification strings -->
     <string name="notificationTitle">Cloud alarm set!</string>
     <string name="notificationBody">Touch to open clock app</string>
     <string name="menuContact">Contact</string>
     <string name="menuPrivacy">Privacy</string>
+
+    <string name="draw_over_apps_permission">Please grant the permission \"Display over other apps\" from your settings.</string>
 </resources>

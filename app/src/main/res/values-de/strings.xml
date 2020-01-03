@@ -4,7 +4,7 @@
     <string name="headline">Willkommen</string>
     <string name="btnOpenUrl">Persönlichen Link erstellen</string>
     <string name="regidUnavailable">Persönliche URL konnte nicht vom Server geladen werden. Erneut versuchen.</string>
-    <string name="default_notification_channel_name">Wecker-Stellen</string>
+    <string name="channel_name">Wecker-Stellen</string>
     <string name="notificationBody">Klicken für Wecker-Anwendung</string>
     <string name="notificationTitle">Wecker gestellt!</string>
     <string name="textExplanation">Diese Anwendung ermöglicht das Stellen eines Weckers über
@@ -15,4 +15,5 @@
     <string name="shareUrl">Link an deinen Computer schicken</string>
     <string name="menuContact">Impressum</string>
     <string name="menuPrivacy">Datenschutzerklärung</string>
+    <string name="draw_over_apps_permission">Bitte \"Apps, die über anderen erscheinen können\" aus den Einstellungen erlauben.</string>
 </resources>

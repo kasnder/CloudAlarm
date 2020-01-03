@@ -1,21 +1,27 @@
 package net.kollnig.alarm;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class MainActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -23,6 +29,8 @@ public class MainActivity extends Activity {
 
 		// Check Availability of Play Services
 		GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this);
+
+		FirebaseApp.initializeApp(this);
 	}
 
 	/**
@@ -67,31 +75,55 @@ public class MainActivity extends Activity {
 		startActivity(browserIntent);
 	}
 
+	public void onError (int resId) {
+		View main = this.getWindow().getDecorView().findViewById(android.R.id.content);
+		Snackbar s = Snackbar.make(main, getText(resId), Snackbar.LENGTH_INDEFINITE);
+		s.setAction(android.R.string.ok, v1 -> s.dismiss());
+		s.setActionTextColor(ContextCompat.getColor(this, R.color.colorPrimary));
+		s.show();
+	}
+
 	/**
 	 * Open URL to set alarm
 	 *
 	 * @param v View
 	 */
 	public void clickBtnUrl (View v) {
-		// Get token
-		String regid = FirebaseInstanceId.getInstance().getToken();
-		if (regid == null) { // no token has been generated yet
-			Toast.makeText(MainActivity.this, R.string.regidUnavailable, Toast.LENGTH_LONG).show();
-			return;
-		}
-
-		// Open URL, derived from token
 		try {
-			String url = Config.host + "?id=" + URLEncoder.encode(regid, "UTF-8");
-
-			// Offer to share link
-			Intent sendIntent = new Intent(Intent.ACTION_SEND);
-			sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Cloud Alarm - Config Page");
-			sendIntent.putExtra(Intent.EXTRA_TEXT, url);
-			sendIntent.setType("text/plain");
-			startActivity(Intent.createChooser(sendIntent, "Transfer link to your computer"));
-		} catch (UnsupportedEncodingException ex) { // due to URLEncoder.encode, never happens
-			throw new AssertionError("UTF-8 is unknown.");
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+					&& !Settings.canDrawOverlays(this)) {
+				Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+						Uri.parse("package:" + this.getPackageName()));
+				PackageManager packageManager = this.getPackageManager();
+				if (intent.resolveActivity(packageManager) != null) {
+					startActivity(intent);
+				} else {
+					onError(R.string.draw_over_apps_permission);
+				}
+				return;
+			}
+		} catch (Exception e) {
+			onError(R.string.draw_over_apps_permission);
 		}
+
+		FirebaseInstanceId.getInstance().getInstanceId()
+				.addOnFailureListener(e -> onError(R.string.regidUnavailable))
+				.addOnSuccessListener(instanceIdResult -> {
+					String regid = instanceIdResult.getToken();
+
+					// Open URL, derived from token
+					try {
+						String url = Config.host + "?id=" + URLEncoder.encode(regid, "UTF-8");
+
+						// Offer to share link
+						Intent sendIntent = new Intent(Intent.ACTION_SEND);
+						sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Cloud Alarm - Config Page");
+						sendIntent.putExtra(Intent.EXTRA_TEXT, url);
+						sendIntent.setType("text/plain");
+						startActivity(Intent.createChooser(sendIntent, "Transfer link to your computer"));
+					} catch (UnsupportedEncodingException ex) { // due to URLEncoder.encode, never happens
+						throw new AssertionError("UTF-8 is unknown.");
+					}
+				});
 	}
 }
