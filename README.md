@@ -15,7 +15,8 @@ Just download the app [from the Google Play Store](https://play.google.com/store
 
 ## Background
 This project was created back in 2016 to ease my studies at university.
-Since this application may be helpful for other, I published it on Google Play,
+
+Since this application may be helpful for others, I published it on Google Play,
 alongside its source code.
 
 If this app should change your life as well, leave a message.
